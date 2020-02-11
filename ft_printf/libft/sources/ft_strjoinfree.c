@@ -12,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strjoinfree(char *s1, char *s2, int mod)
 {
@@ -27,8 +28,9 @@ char	*ft_strjoinfree(char *s1, char *s2, int mod)
 	counter = ft_strlen(s1) + ft_strlen(s2);
 	if (!(new = ft_memalloc(counter + 1)))
 		return (NULL);
-	while (s1[index])
+	while (s1[index2])
 		new[index++] = s1[index2++];
+	index2 = 0;
 	while (s2[index2])
 		new[index++] = s2[index2++];
 	if (mod == 1 || mod == 3)

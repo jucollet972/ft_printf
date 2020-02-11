@@ -11,18 +11,21 @@
 #                                                         /                    #
 # **************************************************************************** #
 
-NAME=libftprintf.a
+NAME= libftprintf.a
 
-CC=gcc
+CC= gcc
 
-FLAGS= -Wall -Wextra 
+FLAGS= -Wall -Wextra
 
 
 INCLUDES= -I includes\
 		  -I libft/includes/
+		  
+HEADERS= includes/ft_printf.h\
+		 libft/includes/libft.h
 
 SRC_PATH = sources/
-SRC_NAME = ft_printf.c
+SRC_NAME = ft_printf.c main.c
 
 BIN_PATH = bin/
 
@@ -31,9 +34,9 @@ BIN = $(addprefix $(BIN_PATH),$(SRC_NAME:.c=.o))
 
 all : $(NAME)
 
-$(NAME): $(BIN_PATH) $(BIN)
+$(NAME): $(BIN_PATH) $(BIN) $(HEADERS)
 	@make -C libft
-	@ar -rc $(NAME) $(BIN) libft/bin/*
+	@ar -rc $(NAME) $(BIN) libft/bin/*.o
 	@ranlib $(NAME)
 	@echo "\033[32m[Your Library is ready]\033[0m"
 

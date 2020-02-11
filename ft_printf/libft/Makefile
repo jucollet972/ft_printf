@@ -19,6 +19,9 @@ FLAGS= -Wall -Werror -Wextra
 
 INCLUDES= -I includes/
 
+HEADERS= includes/libft.h\
+		 includes/get_next_line.h
+
 SRC_PATH = sources/
 SRC_NAME =	ft_atoi.c		ft_bzero.c			ft_count_integer.c\
 		ft_count_word.c		ft_isalnum.c		ft_isalpha.c\
@@ -43,7 +46,7 @@ SRC_NAME =	ft_atoi.c		ft_bzero.c			ft_count_integer.c\
 		ft_strstr.c			ft_strsub.c			ft_strtrim.c\
 		ft_tolower.c		ft_toupper.c		ft_trimspace.c\
 		ft_putnendl_fd.c	ft_strrchr_index.c ft_swap.c\
-		ft_strjoinfree.c
+		ft_strjoinfree.c    get_next_line.c
 
 BIN_PATH = bin/
 
@@ -52,7 +55,7 @@ BIN = $(addprefix $(BIN_PATH),$(SRC_NAME:.c=.o))
 
 all : $(NAME)
 
-$(NAME): $(BIN_PATH) $(BIN)
+$(NAME): $(BIN_PATH) $(BIN) $(HEADERS)
 	@ar -rc $(NAME) $(BIN)
 	@ranlib $(NAME)
 	@echo "\033[32m[Your Library is ready]\033[0m"

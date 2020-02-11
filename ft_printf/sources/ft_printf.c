@@ -1,11 +1,12 @@
 #include "ft_printf.h"
+
 size_t		ft_count_long_long(long long n)
 {
     size_t		counter;
 
     counter = 0;
     if (n == 0)
-    return (1);
+        return (1);
     while (n)
     {
         counter++;
@@ -100,7 +101,7 @@ char	*ft_itoa_ll(long long n)
 
 	sign = 0;
 	index = ft_count_long_long(n);
-    if (n == -9223372036854775808)
+    if ((unsigned long long)n == -9223372036854775808U)
         return (ft_strdup("-9223372036854775808"));
 	(n == 0) ? index = 1 : index;
 	(n < 0) ? index++ : 0;
@@ -279,23 +280,6 @@ int ft_get_format_type(char **str)
     (**str == 'X') ? type = type | UNHEXAUP : 0;
     (*str)++;
     return (type);
-}
-
-void printBits(size_t const size, void const * const ptr)
-{
-    unsigned char *b = (unsigned char*) ptr;
-    unsigned char byte;
-    int i, j;
-
-    for (i=size-1;i>=0;i--)
-    {
-        for (j=7;j>=0;j--)
-        {
-            byte = (b[i] >> j) & 1;
-            printf("%u", byte);
-        }
-    }
-    puts("");
 }
 
 t_format *ft_get_format_info(char *str)
@@ -662,7 +646,7 @@ char *ft_cat_at_start(char *type_str, int len, int to_cat)
     if (!(str = ft_strnew(len)))
         return (NULL);
     str = ft_memset(str, to_cat, len);
-    str = ft_strjoin(str, type_str);
+    str = ft_strjoinfree(str, type_str, 3);
     return (str);
 }
 
@@ -755,7 +739,6 @@ char *ft_format_string(va_list arg, t_format *format)
     len = 0;
     type_str = ft_get_type_string(arg, format);
     ref_str = type_str;
-    //  printf("%s\n", type_str);
     if (format->flags & ZERO && format->flags & LESS)
         format->flags = format->flags ^ ZERO;
     if (format->type & STRING)
@@ -768,7 +751,6 @@ char *ft_format_string(va_list arg, t_format *format)
     if (format->precision >= 0 && !(format->type & PERCENT))
         type_str = ft_accurate_string(type_str, format);
     len = ft_strlen(type_str);
-     // printf("%d |%s|\n", len, type_str);
     if (len < format->width)
         len = format->width - len;
     else
@@ -777,7 +759,6 @@ char *ft_format_string(va_list arg, t_format *format)
     ((format->flags & MORE && *type_str != '-') || (*type_str != '-' && *ref_str == '-') || (format->flags & SPACE && *ref_str != '-')) ? len -= 1 : 0;
     (*ref_str != '0' && format->flags & HASH && format->type & OCTAL) ? len -= 1 : 0;
     ((*ref_str != '0' && format->flags & HASH && (format->type & UNHEXA || format->type & UNHEXAUP)) || format->type & POINTER) ? len -= 2 : 0;
-    // printf("%d\n", len);
     if (format->flags & LESS && len > 0)
         type_str = ft_get_less_option_str(type_str, format, len);
     else if (len > 0 && (format->flags & ZERO))
@@ -834,7 +815,6 @@ int ft_constuct_str(char *ref, va_list arg)
             return (-1);
         index += end_str;
         format = ft_get_format_info(ref + index);
-       //printf("%d %d\n", format->precision, format->width);
         index += ft_jump_format(ref + index);
         format_string = ft_format_string(arg, format);
         if (format->type & CHARNULL)
@@ -843,7 +823,6 @@ int ft_constuct_str(char *ref, va_list arg)
             write(1, temp, len);
             if (format->flags & LESS)
             {
-
                 write(1, "", 1);
                 write(1, format_string, ft_strlen(format_string));
             }
@@ -875,7 +854,6 @@ int ft_constuct_str(char *ref, va_list arg)
 int ft_printf(const char *str, ...)
 {
     va_list  arg;
-    char *string;
     unsigned long long len;
 
     if (!str)
@@ -884,46 +862,6 @@ int ft_printf(const char *str, ...)
     if (!(len = ft_constuct_str((char *)str, arg)))
         return (0);
     va_end(arg);
+    //sleep(100);
     return (len);
 }
-
-// int main()
-// {
-//        printf("%2.9pr\n", 1234);
-//        ft_printf("%2.9pm\n", 1234);
-//     printf("%.0p, %.5pr\n", 0, 0);
-//     ft_printf("%.0p, %.5pm\n", 0, 0);
-//     printf("%#-3or\n", 0);
-//     ft_printf("%#-3om\n", 0);
-//     printf("%-5cr\n", 0);
-//     ft_printf("%-5cm\n", 0);
-//     printf("% -7ir\n", -14);
-//     ft_printf("% -7im\n", -14);
-    // ft_printf("%0-8.3im\n", -8473);
-    // printf("%0-8.3ir\n", -8473);
-//     ft_printf("%08.5dm\n", 34);
-//     printf("%08.5dr\n", 34);
-//     printf("%-7im\n", 33);
-//     ft_printf("%-7im\n", 33);
-//     ft_printf("%-32sm\n", "abc");
-//     printf("%-32sr\n", "abc");
-//     printf("% -8.3ir\n", -8473);
-//     ft_printf("% -8.3im\n", -8473);
-//   ft_printf("%% 4.5i 42 == |%5%|m\n");
-//      printf("%% 4.5i 42 == |%5%|r\n", -42);
-//   ft_printf("%% 4.5i 42 == |%-5+d|m\n", -42);
-//      printf("%% 4.5i 42 == |%-5+d|r\n", -42);
-//   ft_printf("%% 4.5i 42 == |% #4.5o|m\n", 0);
-//      printf("%% 4.5i 42 == |% #4.5o|r\n", 0);
-//   ft_printf("%% 4.5i 42 == |%#8x|m\n", 42);
-//      printf("%% 4.5i 42 == |%#8x|r\n", 42);
-//   ft_printf("%% 4.5i 42 == |% #8X|m\n", 425);
-//      printf("%% 4.5i 42 == |% #8X|r\n", 425);
-//     ft_printf("{% 03d}m\n", 0);
-//     printf("{% 03d}r\n", 0);
-//     ft_printf("% 10.5dm\n", 4242);
-//        printf("% 10.5dr\n", 4242);
-//    ft_printf("% -8.3dm\n", -8473);
-//    printf("% -8.3dr\n", -8473);
-//   return (0);
-// }

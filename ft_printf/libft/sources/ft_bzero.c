@@ -20,6 +20,5 @@ void	ft_bzero(void *s, size_t n)
 		(*(unsigned char *)(s++)) = 0;
 		n--;
 	}
-	
 	return ;
 }
