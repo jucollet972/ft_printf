@@ -287,8 +287,10 @@ t_format *ft_get_format_info(char *str)
     t_format *format;
     char     *temp;
 
-    format = init_format();
+    format = NULL;
     temp = str;
+    if (!(format = init_format()))
+        return (NULL);
     while (*str && ft_isnt_format(*str))
     {
         if (*str == '#' || *str == '0' || *str == '-' || *str == '+' || *str == ' ')
@@ -527,11 +529,13 @@ char *ft_hexadecimalupper(va_list arg, t_format *format)
     else if (format->size & L)
         return (ft_unsigned_l_flag(arg, format));
     u_int = va_arg(arg, unsigned int);
+    if (u_int == 0)
+    {
+        str = ft_strdup("0");
+        return (str);
+    }
     if (!(str = ft_itoa_base(u_int, 16, 'X')))
         return (NULL);
-    if (u_int == 0)
-        if (!(str = ft_strdup("0")))
-            return (str);
     return (str);
 }
 
@@ -550,11 +554,13 @@ char *ft_octal(va_list arg, t_format *format)
     else if (format->size & L)
         return (ft_unsigned_l_flag(arg, format));
     u_int = va_arg(arg, unsigned int);
+    if (u_int == 0)
+    {
+        str = ft_strdup("0");
+        return (str);
+    }
     if (!(str = ft_itoa_base(u_int, 8, ' ')))
         return (NULL);
-    if (u_int == 0)
-        if (!(str = ft_strdup("0")))
-            return (str);
     return (str);
 }
 
@@ -619,22 +625,27 @@ char *ft_get_type_string(va_list arg, t_format *format)
 char *ft_get_less_option_str(char *type_str, t_format *format, int len)
 {
     char *str;
+    char *tmp;
 
     str = NULL;
+    tmp = NULL;
     if (format->flags & ZERO && !(format->type & INTEGER) && !(format->type & OCTAL) && !(format->flags & HASH))
     {
         if (!(str = ft_strnew(len)))
             return (NULL);
-        str = ft_memset(str, '0', len);
+        tmp = ft_memset(str, '0', len);
         str = ft_strjoin(type_str, str);
+        ft_strdel(&tmp);
     }
     else
     {
         if (!(str = ft_strnew(len)))
             return (NULL);
-         str = ft_memset(str, ' ', len);
-         str = ft_strjoin(type_str, str);
+        tmp = ft_memset(str, ' ', len);
+        str = ft_strjoin(type_str, str);
+        ft_strdel(&tmp);
     }
+    ft_strdel(&type_str);
     return (str);
 }
 
@@ -697,34 +708,51 @@ char  *ft_accurate_string(char *type_str, t_format *format)
         str = ft_strdup("");
       else
         str = ft_integer_accurate_str(type_str, format);
+      ft_strdel(&type_str);
     }
     else if (format->type & OCTAL || format->type & UNHEXA || format->type & UNHEXAUP)
     {
       if (OCTAL & format->type && format->flags & HASH && *type_str != '0')
 	    len += 1;
       if (format->precision == 0 && !(format->type & OCTAL) && (ft_strcmp(type_str, "0") == 0))
+      {
         str = ft_strsub(type_str, 0, format->precision);
+        ft_strdel(&type_str);
+      }
       else if (format->precision <= 0 && (format->type & OCTAL) && !(format->flags & HASH) && (ft_strcmp(type_str, "0") == 0))
+      {  
         str = ft_strdup("");
+        ft_strdel(&type_str);
+      }
       else if (format->precision > len)
         str = ft_cat_at_start(type_str, format->precision - len, '0');
       else
+      {
         str = ft_strsub(type_str, 0, len);
+        ft_strdel(&type_str);
+      }
     }
     else if (format->type & POINTER)
     {
         if (format->precision <= 0 && *type_str == '0')
-            str = ft_strdup("");
+        {  
+           ft_strdel(&type_str);
+           str = ft_strdup("");
+        }
         else if (format->precision > (len = (ft_strlen(type_str))))
         {
             while (format->precision-- > len)
                 str = ft_strjoinfree("0", str, 2);
         }
         else
+        {
             str = ft_strdup(type_str);
+            ft_strdel(&type_str);
+        }
     }
     else
       str = ft_strsub(type_str, 0, format->precision);
+
     return (str);
 }
 
@@ -737,9 +765,9 @@ char *ft_format_string(va_list arg, t_format *format)
 
     tmp = NULL;
     len = 0;
-    if ((type_str = ft_get_type_string(arg, format)) == NULL)
+    if (!(type_str = ft_get_type_string(arg, format)))
        type_str = ft_strdup("");
-    ref_str = type_str;
+    ref_str = ft_strdup(type_str);
     if (format->flags & ZERO && format->flags & LESS)
         format->flags = format->flags ^ ZERO;
     if (format->type & STRING)
@@ -748,9 +776,13 @@ char *ft_format_string(va_list arg, t_format *format)
         (format->flags & MORE) ? format->flags ^= MORE : 0;
     }
     if (type_str == NULL)
+    {
+        ft_strdel(&ref_str);
         return (ft_strdup(""));
+    }
     if (format->precision >= 0 && !(format->type & PERCENT))
         type_str = ft_accurate_string(type_str, format);
+    //protect accurate str free leaks
     len = ft_strlen(type_str);
     if (len < format->width)
         len = format->width - len;
@@ -769,16 +801,16 @@ char *ft_format_string(va_list arg, t_format *format)
 	    {
             tmp = type_str;
             type_str = ft_strsub(type_str, 1, ft_strlen(type_str + 1));
-            free(tmp);
+            ft_strdel(&tmp);
 	    }
      type_str = ft_cat_at_start(type_str, len, '0');
     }
     if ((format->type & UNHEXA && format->flags & HASH && *ref_str != '0') || format->type & POINTER)
-	type_str = ft_strjoin("0x", type_str);
+	type_str = ft_strjoinfree("0x", type_str, 2);
     else if (format->type & UNHEXAUP && format->flags & HASH && *ref_str != '0')
-       	type_str = ft_strjoin("0X", type_str);
+       	type_str = ft_strjoinfree("0X", type_str, 2);
     else if (format->type & OCTAL && format->flags & HASH && *ref_str != '0')
-       	type_str = ft_strjoin("0", type_str);
+       	type_str = ft_strjoinfree("0", type_str, 2);
     if (format->type & INTEGER || (format->type & POINTER))
     {
    	    if (format->flags & MORE && *ref_str != '-')
@@ -795,8 +827,7 @@ char *ft_format_string(va_list arg, t_format *format)
 		len -= 1;
    	 type_str = ft_cat_at_start(type_str, len, ' ');
     }
-    if (ref_str != type_str && *ref_str)
-      free(ref_str);
+    ft_strdel(&ref_str);
     //strdel pas propre
     return (type_str);
 }
@@ -819,13 +850,19 @@ int ft_constuct_str(char *ref, va_list arg)
         if (!(temp = ft_strjoinfree(temp, ft_strsub(ref, index, end_str - 1), 3)))
             return (-1);
         index += end_str;
-        format = ft_get_format_info(ref + index);
+        if (format)
+            free(format);
+        if (!(format = ft_get_format_info(ref + index)))
+        {
+            free(temp);
+            return (-1);
+        }
         index += ft_jump_format(ref + index);
         format_string = ft_format_string(arg, format);
         if (format->type & CHARNULL)
         {
             len += ft_strlen(temp);
-            write(1, temp, len);
+            write(1, temp, ft_strlen(temp));
             if (format->flags & LESS)
             {
                 write(1, "\0", 1);
@@ -839,21 +876,29 @@ int ft_constuct_str(char *ref, va_list arg)
             len += ft_strlen(format_string);
             len += 1;
             *temp = 0;
-            printf("there %s |%s|\n", format_string, temp);
-            //C CASSER TA GESTION DU CHARNULL LOL
+            ft_strdel(&format_string);
         }
         else if (!(temp = ft_strjoinfree(temp, format_string, 3)))
+        {
+            free(format);
             return (-1);
+        }
     }
     if (format && format->type & CHARNULL)
     {
+        ft_strdel(&temp);
         temp = ft_strsub(ref, index, ft_strlen(ref + index));
         len += ft_strlen(temp);
         write(1, temp, ft_strlen(temp));
+        free(temp);
+        free(format);
         return (len);
     }
     else if (!(temp = ft_strjoinfree(temp, ft_strsub(ref, index, ft_strlen(ref + index)), 3)))
+    {
+        free(format);
         return (-1);
+    }
     len = ft_strlen(temp);
     write(1, temp, len);
     free(temp);
@@ -872,7 +917,7 @@ int ft_printf(const char *str, ...)
     if (!(len = ft_constuct_str((char *)str, arg)))
         return (0);
     va_end(arg);
-    printf("  %d", len);
-    //sleep(100);
+    //printf("  %d", len);
+    //sleep(5);
     return (len);
 }
