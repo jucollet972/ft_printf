@@ -65,7 +65,7 @@ char     *ft_itoa_base(unsigned long long n, int base, char c)
 	len = 0;
 
 	if (n == 0)
-	  return (ft_strdup("0"));
+		return (ft_strdup("0"));
 	while (temp /= base)
 		len++;
 	if(!(ret_str = ft_strnew(len + 1)))
@@ -143,7 +143,7 @@ t_format *init_format(void)
 
 	format = NULL;
 	if (!(format = malloc(sizeof(t_format))))
-	return (NULL);
+		return (NULL);
 	format->flags = 0;
 	format->width = 0;
 	format->precision = -1;
@@ -155,15 +155,15 @@ t_format *init_format(void)
 int ft_isnt_flags(char c)
 {
 	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd'
-		&& c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X'
-		&& c != '.' && !(c >= '1' && c <= '9')
-		&& c != '*' && c != 'l' && c != 'h');
+			&& c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X'
+			&& c != '.' && !(c >= '1' && c <= '9')
+			&& c != '*' && c != 'l' && c != 'h');
 }
 
 int ft_isnt_format(char c)
 {
 	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd' &&
-		c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X');
+			c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X');
 }
 
 void ft_get_format_flags(char **str, int* flags)
@@ -246,8 +246,8 @@ int ft_get_format_size(char **str)
 	}
 	else if (**str == 'h')
 	{
-	size = size | H;
-	(*str)+=1;
+		size = size | H;
+		(*str)+=1;
 	}
 	else if (**str == 'l' && *(*str + 1) == 'l')
 	{
@@ -257,7 +257,7 @@ int ft_get_format_size(char **str)
 	else if (**str == 'l')
 	{
 		size = size | L;
-   	(*str)+=1;
+		(*str)+=1;
 	}
 	else
 		return (0);
@@ -314,7 +314,7 @@ int ft_jump_format(char *str)
 
 	index = 0;
 	while (str[index] && ft_isnt_format(str[index]))
-	   index++;
+		index++;
 	if (!str[index])
 		return (index);
 	else
@@ -404,7 +404,7 @@ char *ft_unsigned_h_flag(va_list arg, t_format *format)
 {
 	char *str;
 	unsigned short u_short;
-	
+
 	str = NULL;
 	u_short = va_arg(arg, int);
 	if (format->type & UNHEXA)
@@ -426,13 +426,13 @@ char *ft_unsigned_ll_flag(va_list arg, t_format *format)
 	str = NULL;
 	u_ll = va_arg(arg, unsigned long long);
 	if (format->type & UNHEXA)
-	   str = ft_itoa_base(u_ll, 16, 'x');
+		str = ft_itoa_base(u_ll, 16, 'x');
 	else if (format->type & UNHEXAUP)
-	   str = ft_itoa_base(u_ll, 16, 'X');
+		str = ft_itoa_base(u_ll, 16, 'X');
 	else if (format->type & OCTAL)
-	   str = ft_itoa_base(u_ll, 8, ' ');
+		str = ft_itoa_base(u_ll, 8, ' ');
 	else if (!(str = ft_itoa_ull(u_ll)))
-	   return (NULL);
+		return (NULL);
 	return (str);
 }
 
@@ -444,7 +444,7 @@ char *ft_unsigned_l_flag(va_list arg, t_format *format)
 	str = NULL;
 	u_l = va_arg(arg, long);
 	if (format->type & UNHEXA)
-		  str = ft_itoa_base(u_l, 16, 'x');
+		str = ft_itoa_base(u_l, 16, 'x');
 	else if (format->type & UNHEXAUP)
 		str = ft_itoa_base(u_l, 16, 'X');
 	else if (format->type & OCTAL)
@@ -622,33 +622,6 @@ char *ft_get_type_string(va_list arg, t_format *format)
 	return (NULL);
 }
 
-char *ft_get_less_option_str(char *type_str, t_format *format, int len)
-{
-	char *str;
-	char *tmp;
-
-	str = NULL;
-	tmp = NULL;
-	if (format->flags & ZERO && !(format->type & INTEGER) && !(format->type & OCTAL) && !(format->flags & HASH))
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		tmp = ft_memset(str, '0', len);
-		str = ft_strjoin(type_str, str);
-		ft_strdel(&tmp);
-	}
-	else
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		tmp = ft_memset(str, ' ', len);
-		str = ft_strjoin(type_str, str);
-		ft_strdel(&tmp);
-	}
-	ft_strdel(&type_str);
-	return (str);
-}
-
 char *ft_cat_at_start(char *type_str, int len, int to_cat)
 {
 	char *str;
@@ -701,7 +674,7 @@ char *ft_format_string(va_list arg, t_format *format)
 	tmp = NULL;
 	len = 0;
 	if (!(type_str = ft_get_type_string(arg, format)))
-	   type_str = ft_strdup("");
+		type_str = ft_strdup("");
 	ref_str = ft_strdup(type_str);
 	if (format->flags & ZERO && format->flags & LESS)
 		format->flags = format->flags ^ ZERO;
@@ -731,36 +704,36 @@ char *ft_format_string(va_list arg, t_format *format)
 		type_str = ft_get_less_option_str(type_str, format, len);
 	else if (len > 0 && (format->flags & ZERO))
 	{
-	 if (format->flags & ZERO && format->precision != 0)
-		if (*type_str == '-')
-		{
-			tmp = type_str;
-			type_str = ft_strsub(type_str, 1, ft_strlen(type_str + 1));
-			ft_strdel(&tmp);
-		}
-	 type_str = ft_cat_at_start(type_str, len, '0');
+		if (format->flags & ZERO && format->precision != 0)
+			if (*type_str == '-')
+			{
+				tmp = type_str;
+				type_str = ft_strsub(type_str, 1, ft_strlen(type_str + 1));
+				ft_strdel(&tmp);
+			}
+		type_str = ft_cat_at_start(type_str, len, '0');
 	}
 	if ((format->type & UNHEXA && format->flags & HASH && *ref_str != '0') || format->type & POINTER)
-	type_str = ft_strjoinfree("0x", type_str, 2);
+		type_str = ft_strjoinfree("0x", type_str, 2);
 	else if (format->type & UNHEXAUP && format->flags & HASH && *ref_str != '0')
-	   	type_str = ft_strjoinfree("0X", type_str, 2);
+		type_str = ft_strjoinfree("0X", type_str, 2);
 	else if (format->type & OCTAL && format->flags & HASH && *ref_str != '0')
-	   	type_str = ft_strjoinfree("0", type_str, 2);
+		type_str = ft_strjoinfree("0", type_str, 2);
 	if (format->type & INTEGER || (format->type & POINTER))
 	{
-   		if (format->flags & MORE && *ref_str != '-')
-		   type_str = ft_cat_at_start(type_str, 1, '+');
+		if (format->flags & MORE && *ref_str != '-')
+			type_str = ft_cat_at_start(type_str, 1, '+');
 		else if (*ref_str == '-' && *type_str != '-')
-		   type_str = ft_cat_at_start(type_str, 1, '-');
+			type_str = ft_cat_at_start(type_str, 1, '-');
 		else if (format->flags & SPACE && *ref_str != '-')
-		   type_str = ft_cat_at_start(type_str, 1, ' ');
+			type_str = ft_cat_at_start(type_str, 1, ' ');
 	}
 	len = 0;
 	if ((len = format->width - ft_strlen(type_str)) > 0 )
 	{
-	 if (format->type & CHARNULL)
-		len -= 1;
-   	 type_str = ft_cat_at_start(type_str, len, ' ');
+		if (format->type & CHARNULL)
+			len -= 1;
+		type_str = ft_cat_at_start(type_str, len, ' ');
 	}
 	ft_strdel(&ref_str);
 	//strdel pas propre

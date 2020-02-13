@@ -46,4 +46,5 @@ int		ft_printf(const char *str, ...)__attribute__ ((format (printf, 1, 2)));
 char	*ft_accurate_string(char *type_str, t_format *format);
 char	*ft_cat_at_start(char *type_str, int len, int to_cat);
 char	*ft_integer_accurate_str(char *type_str, t_format *format);
+char	*ft_get_less_option_str(char *type_str, t_format *format, int len);
 #endif
