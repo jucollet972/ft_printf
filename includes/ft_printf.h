@@ -56,5 +56,9 @@ int			ft_get_format_size(char **str);
 int			ft_get_format_type(char **str);
 t_format	*ft_get_format_info(char *str);
 t_format 	*init_format(void);
+char		*ft_dec_hh_flag(va_list arg);
+char		*ft_dec_h_flag(va_list arg);
+char		*ft_dec_ll_flag(va_list arg);
+char		*ft_dec_l_flag(va_list arg);
 
 #endif
