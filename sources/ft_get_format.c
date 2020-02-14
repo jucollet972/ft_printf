@@ -71,3 +71,31 @@ int			ft_get_format_type(char **str)
 	(*str)++;
 	return (type);
 }
+
+t_format	*ft_get_format_info(char *str)
+{
+	t_format	*format;
+	char		*temp;
+
+	format = NULL;
+	temp = str;
+	if (!(format = init_format()))
+		return (NULL);
+	while (*str && ft_isnt_format(*str))
+	{
+		if (*str == '#' || *str == '0' ||
+				*str == '-' || *str == '+' ||
+				*str == ' ')
+			ft_get_format_flags(&str, &format->flags);
+		else if (*str >= '0' && *str <= '9')
+			format->width = ft_get_format_width(&str);
+		else if (*str == '.')
+			format->precision = ft_get_format_precision(&str);
+		else if (*str == 'l' || *str == 'h')
+			format->size = ft_get_format_size(&str);
+		else
+			str++;
+	}
+	format->type = ft_get_format_type(&str);
+	return (format);
+}

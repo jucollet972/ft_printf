@@ -6,7 +6,7 @@
 /*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/02/13 23:06:50 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/14 17:06:52 by gmonacho    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/14 17:12:34 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,32 +25,6 @@ t_format *init_format(void)
 	format->precision = -1;
 	format->size = 0;
 	format->type = 0;
-	return (format);
-}
-
-t_format *ft_get_format_info(char *str)
-{
-	t_format *format;
-	char     *temp;
-
-	format = NULL;
-	temp = str;
-	if (!(format = init_format()))
-		return (NULL);
-	while (*str && ft_isnt_format(*str))
-	{
-		if (*str == '#' || *str == '0' || *str == '-' || *str == '+' || *str == ' ')
-			ft_get_format_flags(&str, &format->flags);
-		else if (*str >= '0' && *str <= '9')
-			format->width = ft_get_format_width(&str);
-		else if (*str == '.')
-			format->precision = ft_get_format_precision(&str);
-		else if (*str == 'l' || *str == 'h')
-			format->size = ft_get_format_size(&str);
-		else
-			str++;
-	}
-	format->type = ft_get_format_type(&str);
 	return (format);
 }
 

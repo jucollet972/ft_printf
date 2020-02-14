@@ -42,17 +42,18 @@ typedef struct s_format {
     int type;
 }               t_format;
 
-int		ft_printf(const char *str, ...)__attribute__ ((format (printf, 1, 2)));
-char	*ft_accurate_string(char *type_str, t_format *format);
-char	*ft_cat_at_start(char *type_str, int len, int to_cat);
-char	*ft_integer_accurate_str(char *type_str, t_format *format);
-char	*ft_get_less_option_str(char *type_str, t_format *format, int len);
-int		ft_isnt_flags(char c);
-int		ft_isnt_format(char c);
-void	ft_get_format_flags(char **str, int* flags);
-int		ft_get_format_width(char **str);
-int		ft_get_format_precision(char **str);
-int		ft_get_format_size(char **str);
-int		ft_get_format_type(char **str);
+int			ft_printf(const char *str, ...)__attribute__ ((format (printf, 1, 2)));
+char		*ft_accurate_string(char *type_str, t_format *format);
+char		*ft_cat_at_start(char *type_str, int len, int to_cat);
+char		*ft_integer_accurate_str(char *type_str, t_format *format);
+char		*ft_get_less_option_str(char *type_str, t_format *format, int len);
+int			ft_isnt_flags(char c);
+int			ft_isnt_format(char c);
+void		ft_get_format_flags(char **str, int* flags);
+int			ft_get_format_width(char **str);
+int			ft_get_format_precision(char **str);
+int			ft_get_format_size(char **str);
+int			ft_get_format_type(char **str);
+t_format	*ft_get_format_info(char *str);
 
 #endif
