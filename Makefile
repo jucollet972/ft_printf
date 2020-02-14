@@ -20,12 +20,13 @@ FLAGS= -Wall -Wextra -g
 
 INCLUDES= -I includes\
 		  -I libft/includes/
-		  
+
 HEADERS= includes/ft_printf.h\
 		 libft/includes/libft.h
 
 SRC_PATH = sources/
-SRC_NAME = ft_printf.c main.c
+SRC_NAME = ft_printf.c 				main.c 			ft_accurate_string.c\
+	       ft_get_less_option_str.c
 
 BIN_PATH = bin/
 
