@@ -3,31 +3,15 @@
 /*                                                              /             */
 /*   get_next_line.c                                  .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jucollet <jucollet@le-101.fr>              +:+   +:    +:    +:+     */
+/*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/24 16:45:06 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/09/25 23:34:09 by jucollet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 21:29:30 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-int		ft_strchr_index(const char *str, int c)
-{
-	int		index;
-
-	index = 0;
-	if (str == NULL)
-		return (-1);
-	while (str[index])
-	{
-		if (str[index] == c)
-			return (index);
-		index++;
-	}
-	return (-1);
-}
 
 t_lst	*ft_findlst(t_lst **lst, int fd)
 {

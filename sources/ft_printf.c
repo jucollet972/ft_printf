@@ -13,143 +13,6 @@
 
 #include "ft_printf.h"
 
-size_t		ft_count_long_long(long long n)
-{
-	size_t		counter;
-
-	counter = 0;
-	if (n == 0)
-		return (1);
-	while (n)
-	{
-		counter++;
-		n /= 10;
-	}
-	return (counter);
-}
-
-char     *ft_strrev(char *ref)
-{
-	char temp;
-	int  start;
-	int  end;
-	char *str;
-
-
-	if (!(str = ft_strdup(ref)))
-		return (NULL);
-	start = 0;
-	end = 0;
-	while (str[end])
-		end++;
-	while (end > start)
-	{
-		temp = str[--end];
-		str[end] = str[start];
-		str[start] = temp;
-		start++;
-	}
-	return (str);
-}
-
-char     ft_base_char(int nb, char c)
-{
-	char ret_c;
-
-	ret_c = 0;
-	if (nb <= 9 && nb >= 0)
-		ret_c = nb + 48;
-	else if (c == 'x')
-		ret_c = nb + 97 - 10;
-	else if (c == 'X' && nb > 9)
-		ret_c = nb + 65 - 10;
-	return (ret_c);
-}
-
-char     *ft_itoa_base(unsigned long long n, int base, char c)
-{
-	char         *ret_str;
-	unsigned long long     temp;
-	int           len;
-	int           index;
-
-	index = 0;
-	temp = n;
-	len = 0;
-
-	if (n == 0)
-		return (ft_strdup("0"));
-	while (temp /= base)
-		len++;
-	if(!(ret_str = ft_strnew(len + 1)))
-		return (NULL);
-	while (n > 0)
-	{
-		ret_str[len--] = ft_base_char(n%base, c);
-		n /= base;
-	}
-	return (ret_str);
-}
-
-size_t		ft_count_ull(unsigned long long n)
-{
-	size_t		counter;
-
-	counter = 0;
-	if (n == 0)
-		return (1);
-	while (n)
-	{
-		counter++;
-		n /= 10;
-	}
-	return (counter);
-}
-
-char	*ft_itoa_ll(long long n)
-{
-	size_t		index;
-	char		*str;
-	int			sign;
-
-	sign = 0;
-	index = ft_count_long_long(n);
-	if ((unsigned long long)n == -9223372036854775808U)
-		return (ft_strdup("-9223372036854775808"));
-	(n == 0) ? index = 1 : index;
-	(n < 0) ? index++ : 0;
-	(n < 0) ? sign++ : 0;
-	(n < 0) ? n *= -1 : 0;
-	if (!(str = ft_strnew(index + 1)))
-		return (NULL);
-	while (index)
-	{
-		str[--index] = (n % 10) + 48;
-		n /= 10;
-	}
-	(sign > 0) ? *str = '-' : *str;
-	return (str);
-}
-
-
-char	*ft_itoa_ull(unsigned long long n)
-{
-	size_t		index;
-	char		*str;
-
-	index = ft_count_ull(n);
-	(n == 0) ? index = 1 : index;
-	if (!(str = ft_strnew(index + 1)))
-		return (NULL);
-	while (index)
-	{
-		str[--index] = (n % 10) + 48;
-		n /= 10;
-	}
-	return (str);
-}
-
-
 t_format *init_format(void)
 {
 	t_format *format;
@@ -635,33 +498,6 @@ char *ft_get_type_string(va_list arg, t_format *format)
 	return (NULL);
 }
 
-char *ft_get_less_option_str(char *type_str, t_format *format, int len)
-{
-	char *str;
-	char *tmp;
-
-	str = NULL;
-	tmp = NULL;
-	if (format->flags & ZERO && !(format->type & INTEGER) && !(format->type & OCTAL) && !(format->flags & HASH))
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		tmp = ft_memset(str, '0', len);
-		str = ft_strjoin(type_str, str);
-		ft_strdel(&tmp);
-	}
-	else
-	{
-		if (!(str = ft_strnew(len)))
-			return (NULL);
-		tmp = ft_memset(str, ' ', len);
-		str = ft_strjoin(type_str, str);
-		ft_strdel(&tmp);
-	}
-	ft_strdel(&type_str);
-	return (str);
-}
-
 char *ft_cat_at_start(char *type_str, int len, int to_cat)
 {
 	char *str;
@@ -702,72 +538,6 @@ char  *ft_integer_accurate_str(char *type_str, t_format *format)
 	if (format->flags & ZERO)
 		format->flags ^= ZERO;
 	return (str);
-}
-
-char  *ft_accurate_string(char *type_str, t_format *format)
-{
-	char *str;
-	int  len;
-
-	str = NULL;
-	if (type_str)
-		str = type_str;
-	len = ft_strlen(type_str);
-	if (format->flags & ZERO)
-		format->flags ^= ZERO;
-	if (format->type & INTEGER || format->type & UINT)
-	{
-		if (format->precision <= 0 && (ft_strcmp(type_str, "0") == 0))
-			str = ft_strdup("");
-		else
-			str = ft_integer_accurate_str(type_str, format);
-		ft_strdel(&type_str);
-	}
-	else if (format->type & OCTAL || format->type & UNHEXA || format->type & UNHEXAUP)
-	{
-		if (OCTAL & format->type && format->flags & HASH && *type_str != '0')
-			len += 1;
-		if (format->precision == 0 && !(format->type & OCTAL) && (ft_strcmp(type_str, "0") == 0))
-		{
-			str = ft_strsub(type_str, 0, format->precision);
-			ft_strdel(&type_str);
-		}
-		else if (format->precision <= 0 && (format->type & OCTAL) && !(format->flags & HASH) && (ft_strcmp(type_str, "0") == 0))
-		{  
-			str = ft_strdup("");
-			ft_strdel(&type_str);
-		}
-		else if (format->precision > len)
-			str = ft_cat_at_start(type_str, format->precision - len, '0');
-		else
-		{
-			str = ft_strsub(type_str, 0, len);
-			ft_strdel(&type_str);
-		}
-	}
-	else if (format->type & POINTER)
-	{
-		if (format->precision <= 0 && *type_str == '0')
-		{  
-			ft_strdel(&type_str);
-			str = ft_strdup("");
-		}
-		else if (format->precision > (len = (ft_strlen(type_str))))
-		{
-			while (format->precision-- > len)
-				str = ft_strjoinfree("0", str, 2);
-		}
-		else
-		{
-			str = ft_strdup(type_str);
-			ft_strdel(&type_str);
-		}
-	}
-	else
-		str = ft_strsub(type_str, 0, format->precision);
-
-	return (str);
-}
 
 int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 {
@@ -869,6 +639,7 @@ char *ft_format_string(va_list arg, t_format *format)
 
 	tmp = NULL;
 	len = 0;
+
 	(!(type_str = ft_get_type_string(arg, format))) ? type_str = ft_strdup("") : 0;
 	ref_str = ft_strdup(type_str);
 	format = ft_flags_cancel(format);

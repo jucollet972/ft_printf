@@ -3,10 +3,10 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: jucollet <marvin@le-101.fr>                +:+   +:    +:    +:+      #
+#    By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/03 21:26:15 by jucollet     #+#   ##    ##    #+#        #
-#    Updated: 2019/03/27 22:26:05 by jucollet    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/02/13 23:34:48 by gmonacho    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -45,8 +45,10 @@ SRC_NAME =	ft_atoi.c		ft_bzero.c			ft_count_integer.c\
 		ft_strnstr.c		ft_strrchr.c		ft_strsplit.c\
 		ft_strstr.c			ft_strsub.c			ft_strtrim.c\
 		ft_tolower.c		ft_toupper.c		ft_trimspace.c\
-		ft_putnendl_fd.c	ft_strrchr_index.c ft_swap.c\
-		ft_strjoinfree.c    get_next_line.c
+		ft_putnendl_fd.c	ft_strrchr_index.c 	ft_swap.c\
+		ft_strjoinfree.c    get_next_line.c		ft_count_long_long.c\
+		ft_strrev.c			ft_base_char.c		ft_itoa_base.c\
+		ft_count_ull.c		ft_itoa_ll.c		ft_itoa_ull.c
 
 BIN_PATH = bin/
 

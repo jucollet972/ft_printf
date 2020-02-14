@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   libft.h                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jucollet <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/10/03 16:51:43 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2019/09/24 16:31:14 by jucollet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 23:34:46 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -101,4 +101,12 @@ t_list				*ft_lstnew(void const *content, size_t	content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstaddback(t_list **alst, t_list *list);
 void				ft_putnendl_fd(char const *s, size_t nb, int fd);
+
+size_t				ft_count_long_long(long long n);
+char     			*ft_strrev(char *ref);
+char     			ft_base_char(int nb, char c);
+char     			*ft_itoa_base(unsigned long long n, int base, char c);
+size_t				ft_count_ull(unsigned long long n);
+char				*ft_itoa_ll(long long n);
+char				*ft_itoa_ull(unsigned long long n);
 #endif
