@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_get_format.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jucollet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/14 19:04:49 by jucollet          #+#    #+#             */
+/*   Updated: 2020/02/14 19:35:47 by jucollet         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int			ft_get_format_precision(char **str)
@@ -27,7 +39,7 @@ static void	ft_get_format_size_h(char **str, int *size)
 	*str += 1;
 }
 
-int			ft_get_format_size(char **str)
+static int	ft_get_format_size(char **str)
 {
 	int size;
 
@@ -54,7 +66,7 @@ int			ft_get_format_size(char **str)
 	return (size);
 }
 
-int			ft_get_format_type(char **str)
+static int	ft_get_format_type(char **str)
 {
 	int type;
 

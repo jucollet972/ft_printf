@@ -45,17 +45,12 @@ typedef struct s_format {
 int			ft_printf(const char *str, ...)__attribute__ ((format (printf, 1, 2)));
 char		*ft_accurate_string(char *type_str, t_format *format);
 char		*ft_cat_at_start(char *type_str, int len, int to_cat);
-char		*ft_integer_accurate_str(char *type_str, t_format *format);
 char		*ft_get_less_option_str(char *type_str, t_format *format, int len);
 int			ft_isnt_flags(char c);
 int			ft_isnt_format(char c);
-void		ft_get_format_flags(char **str, int* flags);
-int			ft_get_format_width(char **str);
-int			ft_get_format_precision(char **str);
-int			ft_get_format_size(char **str);
-int			ft_get_format_type(char **str);
 t_format	*ft_get_format_info(char *str);
 t_format 	*init_format(void);
+t_format    *ft_flags_cancel(t_format *format);
 char		*ft_dec_hh_flag(va_list arg);
 char		*ft_dec_h_flag(va_list arg);
 char		*ft_dec_ll_flag(va_list arg);
@@ -65,5 +60,19 @@ char		*ft_unsigned_h_flag(va_list arg, t_format *format);
 char		*ft_unsigned_ll_flag(va_list arg, t_format *format);
 char		*ft_unsigned_l_flag(va_list arg, t_format *format);
 char		*ft_unsigned_int(va_list arg, t_format *format);
+int         ft_get_width_len(t_format *format, char *type_str, char *ref_str);
+char        *ft_zero_width(t_format *format, char *type_str, char *ref_str);
+char        *ft_put_hash_flag(t_format *format, char *type_str, char *ref_str);
+char        *ft_put_sign(char *type_str, char *ref_str, t_format *format);
+char        *ft_space_width(char *type_str, char *ref_str, t_format *format);
+char        *ft_formatstr_null_case(char *ref_str);
+char        *ft_format_string(va_list arg, t_format *format);
+char        *ft_get_type_string(va_list arg, t_format *format);
+char        *ft_get_type_string(va_list arg, t_format *format);
+char        *ft_integer(va_list arg, t_format *format);
+char        *ft_hexadecimal(va_list arg, t_format *format);
+char        *ft_hexadecimalupper(va_list arg, t_format *format);
+char        *ft_octal(va_list arg, t_format *format);
+char        *ft_char_ptr(va_list arg);
 
 #endif

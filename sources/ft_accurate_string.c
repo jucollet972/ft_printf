@@ -1,17 +1,43 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_accurate_string.c                             .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/02/13 22:59:56 by gmonacho     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/13 23:00:04 by gmonacho    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_accurate_string.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jucollet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/14 17:57:57 by jucollet          #+#    #+#             */
+/*   Updated: 2020/02/14 19:35:04 by jucollet         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static char	*ft_integer_accurate_str(char *type_str, t_format *format)
+{
+	char	*str;
+	int		len;
+
+	str = NULL;
+	len = 0;
+	if (format->precision > 0)
+	{
+		len = ft_strlen(type_str);
+		if (len < format->precision)
+			len = format->precision - len;
+		else
+			len = 0;
+	}
+	if (*type_str == '-')
+	{
+		str = ft_strsub(type_str, 1, ft_strlen(type_str));
+		(format->precision > (int)ft_strlen(type_str + 1)) ? len += 1 : 0;
+	}
+	else
+		str = ft_strsub(type_str, 0, ft_strlen(type_str));
+	str = ft_cat_at_start(str, len, '0');
+	(format->flags & ZERO) ? format->flags ^= ZERO : 0;
+	return (str);
+}
 
 static char	*ft_octa_unhexa(const t_format *format, char *type_str, int len)
 {
