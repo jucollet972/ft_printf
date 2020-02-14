@@ -15,7 +15,7 @@ NAME= libftprintf.a
 
 CC= gcc
 
-FLAGS= -Wall -Wextra -g
+FLAGS= -Wall -Wextra -fsanitize=address -g
 
 
 INCLUDES= -I includes\
@@ -26,7 +26,7 @@ HEADERS= includes/ft_printf.h\
 
 SRC_PATH = sources/
 SRC_NAME = ft_printf.c 				main.c 			ft_accurate_string.c\
-	       ft_get_less_option_str.c
+	       ft_get_less_option_str.c ft_format_flags.c
 
 BIN_PATH = bin/
 

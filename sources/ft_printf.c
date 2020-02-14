@@ -488,10 +488,10 @@ int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 		len = 0;
 	(format->type & CHARNULL) ? len -= 1 : 0;
 	((format->flags & MORE && *type_str != '-')
-	|| (*type_str != '-' && *ref_str == '-')
-	|| (format->flags & SPACE && *ref_str != '-')) ? len -= 1 : 0;
+		|| (*type_str != '-' && *ref_str == '-')
+		|| (format->flags & SPACE && *ref_str != '-')) ? len -= 1 : 0;
 	(*ref_str != '0' && format->flags & HASH
-	&& format->type & OCTAL) ? len -= 1 : 0;
+		&& format->type & OCTAL) ? len -= 1 : 0;
 	((*ref_str != '0' && format->flags & HASH && (format->type & UNHEXA
 		|| format->type & UNHEXAUP)) || format->type & POINTER) ? len -= 2 : 0;
 	return (len);
@@ -573,7 +573,7 @@ char *ft_space_width(char *type_str, char *ref_str, t_format *format)
 	return (type_str);
 }
 
-char *ft_error_case(char *type_str, char *ref_str)
+char *ft_error_case(char *ref_str)
 {
 	ft_strdel(&ref_str);
 	return (ft_strdup(""));
@@ -588,7 +588,7 @@ char *ft_format_string(va_list arg, t_format *format)
 	ref_str = ft_strdup(type_str);
 	format = ft_flags_cancel(format);
 	if (type_str == NULL)
-		return(ft_error_case(type_str, ref_str));
+		return(ft_error_case(ref_str));
 	if (format->precision >= 0 && !(format->type & PERCENT))
 		type_str = ft_accurate_string(type_str, format);
 	type_str = ft_zero_width(format, type_str, ref_str);
@@ -597,6 +597,41 @@ char *ft_format_string(va_list arg, t_format *format)
 	type_str = ft_space_width(type_str, ref_str, format);
 	ft_strdel(&ref_str);
 	return (type_str);
+}
+
+int ft_disp_charnull(t_format *format, int len, char *format_string, char *temp)
+{
+	len += ft_strlen(temp);
+	write(1, temp, ft_strlen(temp));
+	if (format->flags & LESS)
+	{
+		write(1, "\0", 1);
+		write(1, format_string, ft_strlen(format_string));
+	}
+	else
+	{
+		write(1, format_string, ft_strlen(format_string));
+		write(1, "\0", 1);
+	}
+	len += ft_strlen(format_string);
+	len += 1;
+	*temp = 0;
+	ft_strdel(&format_string);
+	return (len);
+}
+
+int ft_endl_charnull(t_format *format, char *ref, char *format_string, char *temp)
+{
+	int len;
+
+	len  = 0;
+	ft_strdel(&temp);
+	temp = ft_strsub(ref, 0, ft_strlen(ref));
+	len += ft_strlen(temp);
+	write(1, temp, ft_strlen(temp));
+	free(temp);
+	free(format);
+	return (len);
 }
 
 int ft_constuct_str(char *ref, va_list arg)
@@ -627,24 +662,7 @@ int ft_constuct_str(char *ref, va_list arg)
 		index += ft_jump_format(ref + index);
 		format_string = ft_format_string(arg, format);
 		if (format->type & CHARNULL)
-		{
-			len += ft_strlen(temp);
-			write(1, temp, ft_strlen(temp));
-			if (format->flags & LESS)
-			{
-				write(1, "\0", 1);
-				write(1, format_string, ft_strlen(format_string));
-			}
-			else
-			{
-				write(1, format_string, ft_strlen(format_string));
-				write(1, "\0", 1);
-			}
-			len += ft_strlen(format_string);
-			len += 1;
-			*temp = 0;
-			ft_strdel(&format_string);
-		}
+			len = ft_disp_charnull(format, len, format_string, temp);
 		else if (!(temp = ft_strjoinfree(temp, format_string, 3)))
 		{
 			free(format);
@@ -652,15 +670,7 @@ int ft_constuct_str(char *ref, va_list arg)
 		}
 	}
 	if (format && format->type & CHARNULL)
-	{
-		ft_strdel(&temp);
-		temp = ft_strsub(ref, index, ft_strlen(ref + index));
-		len += ft_strlen(temp);
-		write(1, temp, ft_strlen(temp));
-		free(temp);
-		free(format);
-		return (len);
-	}
+		return ((len += ft_endl_charnull(format, ref + index, format_string, temp)));
 	else if (!(temp = ft_strjoinfree(temp, ft_strsub(ref, index, ft_strlen(ref + index)), 3)))
 	{
 		free(format);
