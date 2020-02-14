@@ -529,15 +529,14 @@ char  *ft_integer_accurate_str(char *type_str, t_format *format)
 	if (*type_str == '-')
 	{
 		str = ft_strsub(type_str, 1, ft_strlen(type_str));
-		if (format->precision > (int)ft_strlen(type_str + 1))
-			len += 1;
+		(format->precision > (int)ft_strlen(type_str + 1)) ? len += 1 : 0;
 	}
 	else
 		str = ft_strsub(type_str, 0, ft_strlen(type_str));
 	str = ft_cat_at_start(str, len, '0');
-	if (format->flags & ZERO)
-		format->flags ^= ZERO;
+	(format->flags & ZERO) ? format->flags ^= ZERO : 0;
 	return (str);
+}
 
 int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 {
@@ -549,20 +548,24 @@ int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 	else
 		len = 0;
 	(format->type & CHARNULL) ? len -= 1 : 0;
-	((format->flags & MORE && *type_str != '-') || (*type_str != '-' && *ref_str == '-')
+	((format->flags & MORE && *type_str != '-')
+	|| (*type_str != '-' && *ref_str == '-')
 	|| (format->flags & SPACE && *ref_str != '-')) ? len -= 1 : 0;
-	(*ref_str != '0' && format->flags & HASH && format->type & OCTAL) ? len -= 1 : 0;
-	((*ref_str != '0' && format->flags & HASH && (format->type & UNHEXA || format->type & UNHEXAUP)) 
-	|| format->type & POINTER) ? len -= 2 : 0;
+	(*ref_str != '0' && format->flags & HASH
+	&& format->type & OCTAL) ? len -= 1 : 0;
+	((*ref_str != '0' && format->flags & HASH && (format->type & UNHEXA
+		|| format->type & UNHEXAUP)) || format->type & POINTER) ? len -= 2 : 0;
 	return (len);
 }
 
 
-char *ft_zero_width(t_format *format, char *type_str, int len)
+char *ft_zero_width(t_format *format, char *type_str, char *ref_str)
 {
 	int tmp;
+	int len;
 
 	tmp  = NULL;
+	len = ft_get_width_len(format, type_str, ref_str);
 	if (format->flags & LESS && len > 0)
 		type_str = ft_get_less_option_str(type_str, format, len);
 	else if (len > 0 && (format->flags & ZERO))
@@ -581,7 +584,8 @@ char *ft_zero_width(t_format *format, char *type_str, int len)
 
 char *ft_put_hash_flag(t_format *format, char *type_str, char *ref_str)
 {
-	if ((format->type & UNHEXA && format->flags & HASH && *ref_str != '0') || format->type & POINTER)
+	if ((format->type & UNHEXA && format->flags & HASH && *ref_str != '0')
+ 		|| format->type & POINTER)
 		type_str = ft_strjoinfree("0x", type_str, 2);
 	else if (format->type & UNHEXAUP && format->flags & HASH && *ref_str != '0')
 		type_str = ft_strjoinfree("0X", type_str, 2);
@@ -630,6 +634,12 @@ char *ft_space_width(char *type_str, char *ref_str, t_format *format)
 	return (type_str);
 }
 
+char *ft_error_case(char *type_str, char *ref_str)
+{
+	ft_strdel(&ref_str);
+	return (ft_strdup(""));
+}
+
 char *ft_format_string(va_list arg, t_format *format)
 {
 	char *type_str;
@@ -640,18 +650,14 @@ char *ft_format_string(va_list arg, t_format *format)
 	tmp = NULL;
 	len = 0;
 
-	(!(type_str = ft_get_type_string(arg, format))) ? type_str = ft_strdup("") : 0;
+	(!(type_str = ft_get_type_string(arg, format)))?type_str = ft_strdup(""):0;
 	ref_str = ft_strdup(type_str);
 	format = ft_flags_cancel(format);
 	if (type_str == NULL)
-	{
-		ft_strdel(&ref_str);
-		return (ft_strdup(""));
-	}
+		return(ft_error_case(type_str, ref_str));
 	if (format->precision >= 0 && !(format->type & PERCENT))
 		type_str = ft_accurate_string(type_str, format);
-	len = ft_get_width_len(format, type_str, ref_str);
-	type_str = ft_zero_width(format, type_str, len);
+	type_str = ft_zero_width(format, type_str, ref_str);
 	type_str = ft_put_hash_flag(format, type_str, ref_str);
 	type_str = ft_put_sign(type_str, ref_str, format);
 	type_str = ft_space_width(type_str, ref_str, format);
