@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-int		ft_isnt_flags(char c)
+int			ft_isnt_flags(char c)
 {
 	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd'
 			&& c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X'
@@ -8,13 +8,21 @@ int		ft_isnt_flags(char c)
 			&& c != '*' && c != 'l' && c != 'h');
 }
 
-int		ft_isnt_format(char c)
+int			ft_isnt_format(char c)
 {
 	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd' &&
 			c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X');
 }
 
-void	ft_get_format_flags(char **str, int *flags)
+static void	ft_get_format_flags_plus(char **str, int *flags)
+{
+	if (*flags & SPACE)
+		*flags ^= SPACE;
+	*flags |= MORE;
+	(*str)++;
+}
+
+void		ft_get_format_flags(char **str, int *flags)
 {
 	if (**str == '0')
 	{
@@ -27,12 +35,7 @@ void	ft_get_format_flags(char **str, int *flags)
 		(*str)++;
 	}
 	else if (**str == '+')
-	{
-		if (*flags & SPACE)
-			*flags ^= SPACE;
-		*flags |= MORE;
-		(*str)++;
-	}
+		ft_get_format_flags_plus(str, flags);
 	else if (**str == '-')
 	{
 		*flags |= LESS;
@@ -45,7 +48,7 @@ void	ft_get_format_flags(char **str, int *flags)
 	}
 }
 
-int		ft_get_format_width(char **str)
+int			ft_get_format_width(char **str)
 {
 	int width;
 
