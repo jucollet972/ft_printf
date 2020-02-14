@@ -3,10 +3,10 @@
 #                                                               /              #
 #    Makefile                                         .::    .:/ .      .::    #
 #                                                  +:+:+   +:    +:  +:+:+     #
-#    By: jucollet <marvin@le-101.fr>                +:+   +:    +:    +:+      #
+#    By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/03 21:26:15 by jucollet     #+#   ##    ##    #+#        #
-#    Updated: 2019/03/27 22:26:05 by jucollet    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/02/14 17:07:32 by gmonacho    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -26,7 +26,7 @@ HEADERS= includes/ft_printf.h\
 
 SRC_PATH = sources/
 SRC_NAME = ft_printf.c 				main.c 			ft_accurate_string.c\
-	       ft_get_less_option_str.c ft_format_flags.c
+		   ft_get_less_option_str.c ft_get_format.c ft_format_flags.c 
 
 BIN_PATH = bin/
 
