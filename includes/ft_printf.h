@@ -51,4 +51,8 @@ int		ft_isnt_flags(char c);
 int		ft_isnt_format(char c);
 void	ft_get_format_flags(char **str, int* flags);
 int		ft_get_format_width(char **str);
+int		ft_get_format_precision(char **str);
+int		ft_get_format_size(char **str);
+int		ft_get_format_type(char **str);
+
 #endif
