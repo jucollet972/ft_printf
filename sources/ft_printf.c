@@ -6,7 +6,7 @@
 /*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/02/13 23:06:50 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/14 17:12:34 by gmonacho    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/14 17:20:14 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ t_format *init_format(void)
 	t_format *format;
 
 	format = NULL;
-	if (!(format = malloc(sizeof(t_format))))
+	if (!(format = (t_format*)malloc(sizeof(t_format))))
 		return (NULL);
 	format->flags = 0;
 	format->width = 0;

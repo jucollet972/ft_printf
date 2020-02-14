@@ -23,7 +23,7 @@ int			ft_get_format_precision(char **str)
 
 static void	ft_get_format_size_h(char **str, int *size)
 {
-	*size = *size | H;
+	*size |= H;
 	*str += 1;
 }
 
@@ -84,8 +84,7 @@ t_format	*ft_get_format_info(char *str)
 	while (*str && ft_isnt_format(*str))
 	{
 		if (*str == '#' || *str == '0' ||
-				*str == '-' || *str == '+' ||
-				*str == ' ')
+			*str == '-' || *str == '+' || *str == ' ')
 			ft_get_format_flags(&str, &format->flags);
 		else if (*str >= '0' && *str <= '9')
 			format->width = ft_get_format_width(&str);
