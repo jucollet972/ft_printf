@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_printf.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: jucollet <marvin@le-101.fr>                +:+   +:    +:    +:+     */
+/*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/02/13 23:06:50 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/13 23:16:15 by jucollet    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/14 16:39:08 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,67 +26,6 @@ t_format *init_format(void)
 	format->size = 0;
 	format->type = 0;
 	return (format);
-}
-
-int ft_isnt_flags(char c)
-{
-	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd'
-			&& c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X'
-			&& c != '.' && !(c >= '1' && c <= '9')
-			&& c != '*' && c != 'l' && c != 'h');
-}
-
-int ft_isnt_format(char c)
-{
-	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd' &&
-			c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X');
-}
-
-void ft_get_format_flags(char **str, int* flags)
-{
-
-	if (**str == '0')
-	{
-		*flags |= ZERO;
-		(*str)++;
-	}
-	else if (**str == ' ')
-	{
-		*flags |= SPACE;
-		(*str)++;
-	}
-	else if (**str == '+')
-	{
-		if (*flags & SPACE)
-			*flags ^= SPACE;
-		*flags |= MORE;
-		(*str)++;
-	}
-	else if (**str == '-')
-	{
-		*flags |= LESS;
-		(*str)++;
-	}
-	else if (**str == '#')
-	{
-		*flags |= HASH;
-		(*str)++;
-	}
-}
-
-int      ft_get_format_width(char **str)
-{
-	int width;
-
-	width = 0;
-	if (**str <= '9' && **str >= '0')
-	{
-		width = ft_atoi(*str);
-		while (**str >= '0' && **str <= '9')
-			(*str)++;
-		return (width);
-	}
-	return (0);
 }
 
 int ft_get_format_precision(char **str)
@@ -538,6 +477,7 @@ char  *ft_integer_accurate_str(char *type_str, t_format *format)
 	if (format->flags & ZERO)
 		format->flags ^= ZERO;
 	return (str);
+}
 
 int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 {
@@ -560,7 +500,7 @@ int ft_get_width_len(t_format *format, char *type_str, char *ref_str)
 
 char *ft_zero_width(t_format *format, char *type_str, int len)
 {
-	int tmp;
+	char *tmp;
 
 	tmp  = NULL;
 	if (format->flags & LESS && len > 0)
