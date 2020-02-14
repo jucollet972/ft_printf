@@ -6,7 +6,7 @@
 /*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/02/13 23:06:50 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/14 16:52:07 by gmonacho    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/14 16:52:50 by gmonacho    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -583,11 +583,6 @@ char *ft_format_string(va_list arg, t_format *format)
 {
 	char *type_str;
 	char *ref_str;
-	char *tmp;
-	int   len;
-
-	tmp = NULL;
-	len = 0;
 
 	(!(type_str = ft_get_type_string(arg, format)))?type_str = ft_strdup(""):0;
 	ref_str = ft_strdup(type_str);
