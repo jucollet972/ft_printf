@@ -60,5 +60,10 @@ char		*ft_dec_hh_flag(va_list arg);
 char		*ft_dec_h_flag(va_list arg);
 char		*ft_dec_ll_flag(va_list arg);
 char		*ft_dec_l_flag(va_list arg);
+char		*ft_unsigned_hh_flag(va_list arg, t_format *format);
+char		*ft_unsigned_h_flag(va_list arg, t_format *format);
+char		*ft_unsigned_ll_flag(va_list arg, t_format *format);
+char		*ft_unsigned_l_flag(va_list arg, t_format *format);
+char		*ft_unsigned_int(va_list arg, t_format *format);
 
 #endif
