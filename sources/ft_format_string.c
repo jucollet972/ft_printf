@@ -72,7 +72,7 @@ char		*ft_format_string(va_list arg, t_format *format)
 	type_str = ft_zero_width(format, type_str, ref_str);
 	type_str = ft_put_hash_flag(format, type_str, ref_str);
 	type_str = ft_put_sign(type_str, ref_str, format);
-	type_str = ft_space_width(type_str, ref_str, format);
+	type_str = ft_space_width(type_str, format);
 	ft_strdel(&ref_str);
 	return (type_str);
 }

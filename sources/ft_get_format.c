@@ -6,13 +6,13 @@
 /*   By: jucollet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 19:04:49 by jucollet          #+#    #+#             */
-/*   Updated: 2020/02/14 19:35:47 by jucollet         ###   ########lyon.fr   */
+/*   Updated: 2020/02/15 09:09:58 by jucollet         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int			ft_get_format_precision(char **str)
+static int	ft_get_format_precision(char **str)
 {
 	int precision;
 

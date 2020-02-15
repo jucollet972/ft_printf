@@ -60,14 +60,14 @@ int main()
      printf("%% 4.5i 42 == |%5%|r\n", -42);
   ft_printf("%% 4.5i 42 == |%-5+.5d|m\n", -42);
   ft_printf("4.5i 42 == |%-5+.5d|m\n", 42);
-  printf("4.5i 42 == |%-5+.5d|r", 42);
+  printf("4.5i 42 == |%-5+.5d|r\n", 42);
      printf("%% 4.5i 42 == |%-5+.5d|r\n", -42);
   ft_printf("%% 4.5i 42 == |% #4.5o|m\n", 0);
      printf("%% 4.5i 42 == |% #4.5o|r\n", 0);
   ft_printf("%% 4.5i 42 == |%#8x|m\n", 42);
      printf("%% 4.5i 42 == |%#8x|r\n", 42);
   ft_printf("%% 4.5i 42 == |% #8.5X|m\n", 425);
-     printf("%% 4.5i 42 == |% #8X|r\n", 425);
+     printf("%% 4.5i 42 == |% #8.5X|r\n", 425);
     ft_printf("{% 03d}m\n", 0);
     printf("{% 03d}r\n", 0);
   ft_printf("% 10.5dm\n", 4242);

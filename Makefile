@@ -28,7 +28,8 @@ SRC_PATH = sources/
 SRC_NAME = ft_printf.c 				main.c 				ft_accurate_string.c\
 	       ft_get_less_option_str.c ft_format_flags.c 	ft_get_format.c\
 		   ft_dec.c					ft_unsigned.c		ft_format_string.c\
-		   ft_width.c				extended_params.c	extended_params_bis.c
+		   ft_width.c				extended_params.c	extended_params_bis.c\
+		   ft_construct_str.c
 
 BIN_PATH = bin/
 

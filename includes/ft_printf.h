@@ -64,7 +64,7 @@ int         ft_get_width_len(t_format *format, char *type_str, char *ref_str);
 char        *ft_zero_width(t_format *format, char *type_str, char *ref_str);
 char        *ft_put_hash_flag(t_format *format, char *type_str, char *ref_str);
 char        *ft_put_sign(char *type_str, char *ref_str, t_format *format);
-char        *ft_space_width(char *type_str, char *ref_str, t_format *format);
+char        *ft_space_width(char *type_str, t_format *format);
 char        *ft_formatstr_null_case(char *ref_str);
 char        *ft_format_string(va_list arg, t_format *format);
 char        *ft_get_type_string(va_list arg, t_format *format);
@@ -74,5 +74,10 @@ char        *ft_hexadecimal(va_list arg, t_format *format);
 char        *ft_hexadecimalupper(va_list arg, t_format *format);
 char        *ft_octal(va_list arg, t_format *format);
 char        *ft_char_ptr(va_list arg);
-
+int			ft_constuct_str(char *ref, va_list arg);
+t_format    *init_format(void);
+int         ft_jump_format(char *str);
+char        *ft_cat_at_start(char *type_str, int len, int to_cat);
+void		ft_get_format_flags(char **str, int *flags);
+int			ft_get_format_width(char **str);
 #endif

@@ -55,7 +55,7 @@ char	*ft_zero_width(t_format *format, char *type_str, char *ref_str)
 	return (type_str);
 }
 
-char	*ft_space_width(char *type_str, char *ref_str, t_format *format)
+char	*ft_space_width(char *type_str, t_format *format)
 {
 	int len;
 
