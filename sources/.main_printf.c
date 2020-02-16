@@ -458,7 +458,6 @@ int			main(int ac, char **av)
 
 		printf("printf =    Test avec (lf) %lf test sans %f\n",  4578453259999999999.45421, 4578453255.45421), F;
 		ft_printf("ft_printf = Test avec (lf) %lf test sans %f\n\n\n",  4578453259999999999.45421, 4578453255.45421);
-
 	}
 	// TEST FLAGS l ll h hh L
 

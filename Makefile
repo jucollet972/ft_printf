@@ -6,7 +6,7 @@
 #    By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/10/03 21:26:15 by jucollet     #+#   ##    ##    #+#        #
-#    Updated: 2020/02/14 17:29:40 by gmonacho    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/02/17 00:01:19 by jucollet         ###   ########lyon.fr    #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -15,7 +15,7 @@ NAME= libftprintf.a
 
 CC= gcc
 
-FLAGS= -Wall -Wextra -Werror
+FLAGr= -Wall -Wextra -Werror
 
 
 INCLUDES= -I includes\
@@ -30,8 +30,6 @@ SRC_NAME = ft_printf.c 				ft_construct_str.c	ft_accurate_string.c\
 	       ft_get_less_option_str.c ft_format_flags.c 	ft_get_format.c\
 		   ft_dec.c					ft_unsigned.c		ft_format_string.c\
 		   ft_width.c				extended_params.c	extended_params_bis.c
-
-
 
 BIN_PATH = bin/
 
@@ -61,7 +59,7 @@ fclean : clean
 		@echo "\033[31m[Libft.a deleted]\033[0m"
 
 test : $(BINPATH) $(BIN) $(NAME)
-	$(CC) $(FLAGS) $(INCLUDES) libft/libft.a $(NAME) -o ft_printf
+	@$(CC) $(FLAGS) $(INCLUDES) libft/libft.a $(NAME) -o ft_printf
 
 re : fclean all
 

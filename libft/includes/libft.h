@@ -1,14 +1,13 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   libft.h                                          .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: gmonacho <gmonacho@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/10/03 16:51:43 by jucollet     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/13 23:34:46 by gmonacho    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jucollet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/16 23:14:32 by jucollet          #+#    #+#             */
+/*   Updated: 2020/02/16 23:15:52 by jucollet         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
@@ -25,6 +24,8 @@ typedef	struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+int					ft_trimspace(char c);
+int					ft_tolower(int c);
 void				ft_putnendl(char const *s, size_t nb);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memmove(void *dst, const void *src, size_t len);
@@ -101,11 +102,10 @@ t_list				*ft_lstnew(void const *content, size_t	content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstaddback(t_list **alst, t_list *list);
 void				ft_putnendl_fd(char const *s, size_t nb, int fd);
-
 size_t				ft_count_long_long(long long n);
-char     			*ft_strrev(char *ref);
-char     			ft_base_char(int nb, char c);
-char     			*ft_itoa_base(unsigned long long n, int base, char c);
+char				*ft_strrev(char *ref);
+char				ft_base_char(int nb, char c);
+char				*ft_itoa_base(unsigned long long n, int base, char c);
 size_t				ft_count_ull(unsigned long long n);
 char				*ft_itoa_ll(long long n);
 char				*ft_itoa_ull(unsigned long long n);
