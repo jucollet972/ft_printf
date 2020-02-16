@@ -12,12 +12,10 @@
 
 #include "ft_printf.h"
 
-int			ft_isnt_flags(char c)
+int			ft_defined_format_char(char c)
 {
-	return (c != '%' && c != 'c' && c != 's' && c != 'p' && c != 'd'
-			&& c != 'i' && c != 'o' && c != 'u' && c != 'x' && c != 'X'
-			&& c != '.' && !(c >= '1' && c <= '9')
-			&& c != '*' && c != 'l' && c != 'h');
+	return (c == '.' || (c >= '1' && c <= '9') || c == 'l' || c == 'h' ||
+	 		c == '-' || c == '+' || c == ' ' || c == '0' || c == '#');
 }
 
 int			ft_isnt_format(char c)

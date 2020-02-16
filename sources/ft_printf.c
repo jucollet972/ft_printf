@@ -27,19 +27,6 @@ t_format	*init_format(void)
 	return (format);
 }
 
-int			ft_jump_format(char *str)
-{
-	int	index;
-
-	index = 0;
-	while (str[index] && ft_isnt_format(str[index]))
-		index++;
-	if (!str[index])
-		return (index);
-	else
-		return (index + 1);
-}
-
 char		*ft_cat_at_start(char *type_str, int len, int to_cat)
 {
 	char	*str;

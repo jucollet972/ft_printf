@@ -80,33 +80,30 @@ static int	ft_get_format_type(char **str)
 	(**str == 'u') ? type = type | UINT : 0;
 	(**str == 'x') ? type = type | UNHEXA : 0;
 	(**str == 'X') ? type = type | UNHEXAUP : 0;
-	(*str)++;
 	return (type);
 }
 
-t_format	*ft_get_format_info(char *str)
+t_format	*ft_get_format_info(char **str)
 {
 	t_format	*format;
-	char		*temp;
 
 	format = NULL;
-	temp = str;
 	if (!(format = init_format()))
 		return (NULL);
-	while (*str && ft_isnt_format(*str))
+	while (**str && ft_defined_format_char(**str))
 	{
-		if (*str == '#' || *str == '0' ||
-			*str == '-' || *str == '+' || *str == ' ')
-			ft_get_format_flags(&str, &format->flags);
-		else if (*str >= '0' && *str <= '9')
-			format->width = ft_get_format_width(&str);
-		else if (*str == '.')
-			format->precision = ft_get_format_precision(&str);
-		else if (*str == 'l' || *str == 'h')
-			format->size = ft_get_format_size(&str);
+		if (**str == '#' || **str == '0' ||
+			**str == '-' || **str == '+' || **str == ' ')
+			ft_get_format_flags(str, &format->flags);
+		else if (**str >= '0' && **str <= '9')
+			format->width = ft_get_format_width(str);
+		else if (**str == '.')
+			format->precision = ft_get_format_precision(str);
+		else if (**str == 'l' || **str == 'h')
+			format->size = ft_get_format_size(str);
 		else
-			str++;
+			(*str)++;
 	}
-	format->type = ft_get_format_type(&str);
+	((format->type = ft_get_format_type(str)) != 0) ? *str += 1 : 0;
 	return (format);
 }

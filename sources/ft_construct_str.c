@@ -69,9 +69,8 @@ static char	*ft_start_string(char **ref, va_list arg, int *len, t_format **form)
 		*ref += end_str;
 		if (*form)
 			free(*form);
-		if (!(*form = ft_get_format_info(*ref)))
+		if (!(*form = ft_get_format_info(ref)))
 			return (ft_start_str_error_ret(temp));
-		*ref += ft_jump_format(*ref);
 		format_string = ft_format_string(arg, *form);
 		if ((*form)->type & CHARNULL)
 			*len = ft_disp_charnull(*form, *len, format_string, temp);

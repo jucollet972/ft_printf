@@ -601,8 +601,8 @@ int			main(int ac, char **av)
 		ft_printf("f - {%05.s}\n", "bouuuuh");
 		printf("v - {%05s}\n", "ha"), F;
 		ft_printf("f - {%05s}\n", "ha");
-		printf("v - {%03.s}\n", "mais pourquoi?"), F;
-		ft_printf("f - {%03.s}\n", "mais pourquoi?");
+		printf("v - {%03.2s}\n", "mais pourquoi?"), F;
+		ft_printf("f - {%03.2s}\n", "mais pourquoi?");
 		printf("v - {%05.10s}\n", 0), F;
 		ft_printf("f - {%05.10s}\n", 0);
 		printf("v - {%05s}\n", 0), F;

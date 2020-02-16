@@ -93,7 +93,7 @@ static int	ft_init_accurate(t_format *format, char *type_str, char **str)
 	*str = NULL;
 	if (type_str)
 		*str = type_str;
-	if (format->flags & ZERO)
+	if (format->flags & ZERO && !(format->type & STRING))
 		format->flags ^= ZERO;
 	return (ft_strlen(type_str));
 }

@@ -15,7 +15,7 @@ NAME= libftprintf.a
 
 CC= gcc
 
-FLAGS= -Wall -Wextra -fsanitize=address -g
+FLAGS= -Wall -Wextra -Werror
 
 
 INCLUDES= -I includes\
@@ -25,11 +25,13 @@ HEADERS= includes/ft_printf.h\
 		 libft/includes/libft.h
 
 SRC_PATH = sources/
-SRC_NAME = ft_printf.c 				main.c 				ft_accurate_string.c\
+
+SRC_NAME = ft_printf.c 				ft_construct_str.c	ft_accurate_string.c\
 	       ft_get_less_option_str.c ft_format_flags.c 	ft_get_format.c\
 		   ft_dec.c					ft_unsigned.c		ft_format_string.c\
-		   ft_width.c				extended_params.c	extended_params_bis.c\
-		   ft_construct_str.c
+		   ft_width.c				extended_params.c	extended_params_bis.c
+
+
 
 BIN_PATH = bin/
 
@@ -57,8 +59,9 @@ fclean : clean
 		@make fclean -C libft
 		@rm -rf $(NAME)
 		@echo "\033[31m[Libft.a deleted]\033[0m"
-test : $(BINPATH) $(BIN)
-	$(CC) $(FLAGS) $(INCLUDES) libft/libft.a $(SRC) -o ft_printf
+
+test : $(BINPATH) $(BIN) $(NAME)
+	$(CC) $(FLAGS) $(INCLUDES) libft/libft.a $(NAME) -o ft_printf
 
 re : fclean all
 

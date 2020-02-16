@@ -7,13 +7,13 @@
 #define FT_PRINTF
 
 typedef enum e_type {
-        CHAR =    0b0000000000000001,
-        STRING =  0b0000000000000010,
-        POINTER = 0b0000000000000100,
-        INTEGER = 0b0000000000001000,
-        OCTAL   = 0b0000000000010000,
-        UNDECI  = 0b0000000000100000,
-        UNHEXA  = 0b0000000001000000,
+       CHAR     = 0b0000000000000001,
+       STRING   = 0b0000000000000010,
+       POINTER  = 0b0000000000000100,
+       INTEGER  = 0b0000000000001000,
+       OCTAL    = 0b0000000000010000,
+       UNDECI   = 0b0000000000100000,
+       UNHEXA   = 0b0000000001000000,
        UNHEXAUP = 0b0000000010000000,
        FLOAT    = 0b0000000100000000,
        UINT     = 0b0000001000000000,
@@ -42,13 +42,17 @@ typedef struct s_format {
     int type;
 }               t_format;
 
+int			ft_defined_format_char(char c);
 int			ft_printf(const char *str, ...)__attribute__ ((format (printf, 1, 2)));
 char		*ft_accurate_string(char *type_str, t_format *format);
 char		*ft_cat_at_start(char *type_str, int len, int to_cat);
 char		*ft_get_less_option_str(char *type_str, t_format *format, int len);
 int			ft_isnt_flags(char c);
 int			ft_isnt_format(char c);
-t_format	*ft_get_format_info(char *str);
+int			ft_constuct_str(char *ref, va_list arg);
+int         ft_jump_format(char *str, t_format *format);
+int			ft_get_format_width(char **str);
+t_format	*ft_get_format_info(char **str);
 t_format 	*init_format(void);
 t_format    *ft_flags_cancel(t_format *format);
 char		*ft_dec_hh_flag(va_list arg);
@@ -74,10 +78,6 @@ char        *ft_hexadecimal(va_list arg, t_format *format);
 char        *ft_hexadecimalupper(va_list arg, t_format *format);
 char        *ft_octal(va_list arg, t_format *format);
 char        *ft_char_ptr(va_list arg);
-int			ft_constuct_str(char *ref, va_list arg);
-t_format    *init_format(void);
-int         ft_jump_format(char *str);
 char        *ft_cat_at_start(char *type_str, int len, int to_cat);
 void		ft_get_format_flags(char **str, int *flags);
-int			ft_get_format_width(char **str);
 #endif
